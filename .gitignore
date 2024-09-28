@@ -1,0 +1,5 @@
+/cmake-build-debug/
+/.idea/
+/imgui/misc/
+/imgui/examples/
+/imgui/backends/
