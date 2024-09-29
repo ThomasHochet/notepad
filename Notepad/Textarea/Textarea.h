@@ -7,6 +7,7 @@
 class Textarea {
 private:
     std::string text;
+    static int ResizeCallback(ImGuiInputTextCallbackData* data);
 public:
     Textarea();
     void Render();

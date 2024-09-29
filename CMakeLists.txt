@@ -18,13 +18,14 @@ set(IMGUI_SOURCES
         imgui/imgui_impl_opengl3_loader.h
         imgui/imgui_impl_opengl3.cpp
         imgui/imgui_impl_sdl2.h
-        imgui/imgui_impl_sdl2.cpp)
+        imgui/imgui_impl_sdl2.cpp
+        imgui/imgui_markdown.h Notepad/MarkdownPopup/MarkdownPopup.cpp Notepad/MarkdownPopup/MarkdownPopup.h)
 
 set(PROJECTS_SOURCES
         Notepad/menu/Menu.cpp Notepad/menu/Menu.h Notepad/Notepad.cpp Notepad/Notepad.h Notepad/Textarea/Textarea.cpp Notepad/Textarea/Textarea.h)
 
 # Add include directories for SDL2 and ImGui
-include_directories(${SDL2_INCLUDE_DIR} imgui)
+include_directories(${SDL2_INCLUDE_DIR} imgui libs/nativefiledialog/src/include)
 
 # Link SDL2 library directories
 link_directories(${SDL2_LIB_DIR})
@@ -32,8 +33,13 @@ link_directories(${SDL2_LIB_DIR})
 # Create a library for ImGui
 add_library(imgui STATIC ${IMGUI_SOURCES})
 
-# Add executable for your project
+# Create library for Native File Dialog
+add_library(nativefiledialog STATIC
+        libs/nativefiledialog/src/nfd_common.c
+        libs/nativefiledialog/src/nfd_win.cpp)
+
+# Add Imgui
 add_executable(notepad main.cpp ${PROJECTS_SOURCES})
 
 # Link the ImGui library and SDL2 to the appSomething executable
-target_link_libraries(notepad imgui SDL2main SDL2 opengl32)
+target_link_libraries(notepad imgui SDL2main SDL2 opengl32 nativefiledialog)

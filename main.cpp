@@ -87,9 +87,8 @@ int main(int, char**) {
     // For testing purpose, you can use an absolute path
     // ImFont* krytanFont = io.Fonts->AddFontFromFileTTF("C:/Path/To/Current/Folder/.../Font.ttf, 16.0f);
     // In use, the TTF need to be alongside the exe
-    // I'll try to embed it into the software later
-//    ImFont* krytanFont = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 16.0f);
-//    IM_ASSERT(krytanFont != nullptr);
+    // ImFont* krytanFont = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 16.0f);
+    // IM_ASSERT(krytanFont != nullptr);
 
     // Our state
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
