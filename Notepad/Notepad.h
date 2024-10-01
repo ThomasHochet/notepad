@@ -10,6 +10,10 @@ private:
     Menu menu;
     Textarea textarea;
     MarkdownPopup markdownPopup;
+
+    bool markdownViewVisible;
+    ImVec2 currentPos;
+    ImVec2 currentDisplaySize;
 public:
     Notepad();
     void Render();

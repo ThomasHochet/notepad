@@ -1,23 +1,28 @@
 #include "Notepad.h"
 
-Notepad::Notepad() : menu(), textarea(), markdownPopup() {}
+Notepad::Notepad() : menu(), textarea(), markdownPopup(), markdownViewVisible(false) {
+    menu.SetIsMarkdownViewVisible(&markdownViewVisible);
+}
 
 void Notepad::Render()
 {
     ImGuiIO& io = ImGui::GetIO();
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+    ImGui::SetNextWindowViewport(viewport->ID);
+    ImGui::SetNextWindowPos(viewport->Pos);
+    ImGui::SetNextWindowSize(viewport->Size);
     ImGui::Begin("Notepad",
                  nullptr,
-                 ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
-    ImGui::SetWindowSize(io.DisplaySize);
-    ImGui::SetWindowPos(ImVec2(0, 0));
+                 ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize  | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus);
 
     menu.Render();
     textarea.Render();
-    if (menu.GetIsMarkdownViewVisible())
+
+    if (menu.GetIsMarkdownViewVisible() && *menu.GetIsMarkdownViewVisible())
     {
-        ImGui::OpenPopup("Markdown render");
         markdownPopup.SetText(textarea.GetText());
-        markdownPopup.Render();
+        markdownPopup.Render(menu.GetIsMarkdownViewVisible());
     }
 
     if (ImGui::IsKeyPressed(ImGuiKey_S) && (ImGui::GetIO().KeyCtrl))
@@ -30,7 +35,7 @@ void Notepad::Render()
         HandleOpen();
     }
 
-    if (ImGui::IsKeyPressed(ImGuiKey_B) && (ImGui::GetIO().KeyCtrl))
+    if (ImGui::IsKeyPressed(ImGuiKey_B) && (ImGui::GetIO().KeyCtrl) && (ImGui::GetIO().KeyShift))
     {
         HandlePopup();
     }
@@ -57,6 +62,6 @@ void Notepad::HandleOpen()
 
 void Notepad::HandlePopup()
 {
-    bool swapVisiblePopup = !menu.GetIsMarkdownViewVisible();
-    menu.SetIsMarkdownViewVisible(swapVisiblePopup);
+    markdownViewVisible = !markdownViewVisible;
+    menu.SetIsMarkdownViewVisible(&markdownViewVisible);
 }

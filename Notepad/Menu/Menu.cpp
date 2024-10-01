@@ -5,7 +5,7 @@
 #include <nfd.h>
 #include <string>
 
-Menu::Menu() : currentFilePath(""), isMarkdownViewVisible(false) {}
+Menu::Menu() : currentFilePath(""), isMarkdownViewVisible(nullptr) {}
 
 void Menu::Render()
 {
@@ -45,7 +45,7 @@ void Menu::Render()
         }
         if (ImGui::BeginMenu("View"))
         {
-            if (ImGui::MenuItem("Markdown (Ctrl+B)", nullptr, &isMarkdownViewVisible))
+            if (ImGui::MenuItem("Markdown (Ctrl+Shift+B)", nullptr, isMarkdownViewVisible))
             {
             }
             ImGui::EndMenu();
@@ -118,12 +118,12 @@ void Menu::SaveFile(const std::string& textContent)
     }
 }
 
-void Menu::SetIsMarkdownViewVisible(bool isNewMarkdownViewVisible)
+void Menu::SetIsMarkdownViewVisible(bool* isNewMarkdownViewVisible)
 {
     isMarkdownViewVisible = isNewMarkdownViewVisible;
 }
 
-bool Menu::GetIsMarkdownViewVisible()
+bool* Menu::GetIsMarkdownViewVisible()
 {
     return isMarkdownViewVisible;
 }

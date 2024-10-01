@@ -8,6 +8,10 @@ class Textarea {
 private:
     std::string text;
     static int ResizeCallback(ImGuiInputTextCallbackData* data);
+
+    bool boldText;
+    bool italicText;
+    bool underlineText;
 public:
     Textarea();
     void Render();

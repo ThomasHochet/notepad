@@ -19,10 +19,20 @@ set(IMGUI_SOURCES
         imgui/imgui_impl_opengl3.cpp
         imgui/imgui_impl_sdl2.h
         imgui/imgui_impl_sdl2.cpp
-        imgui/imgui_markdown.h Notepad/MarkdownPopup/MarkdownPopup.cpp Notepad/MarkdownPopup/MarkdownPopup.h)
+        imgui/imgui_md.h
+        imgui/imgui_md.cpp
+        imgui/md4c.h
+        imgui/md4c.c)
 
 set(PROJECTS_SOURCES
-        Notepad/menu/Menu.cpp Notepad/menu/Menu.h Notepad/Notepad.cpp Notepad/Notepad.h Notepad/Textarea/Textarea.cpp Notepad/Textarea/Textarea.h)
+        Notepad/menu/Menu.cpp
+        Notepad/menu/Menu.h
+        Notepad/Notepad.cpp
+        Notepad/Notepad.h
+        Notepad/Textarea/Textarea.cpp
+        Notepad/Textarea/Textarea.h
+        Notepad/MarkdownPopup/MarkdownPopup.cpp
+        Notepad/MarkdownPopup/MarkdownPopup.h Notepad/MarkdownPopup/Markdown/Markdown.cpp Notepad/MarkdownPopup/Markdown/Markdown.h)
 
 # Add include directories for SDL2 and ImGui
 include_directories(${SDL2_INCLUDE_DIR} imgui libs/nativefiledialog/src/include)

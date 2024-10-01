@@ -9,7 +9,7 @@ private:
     std::string text;
 public:
     MarkdownPopup();
-    void Render();
+    void Render(bool* p_open = nullptr);
     void SetText(std::string newText);
     std::string GetText();
 };
