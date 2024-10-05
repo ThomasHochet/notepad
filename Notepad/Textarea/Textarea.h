@@ -8,15 +8,15 @@ class Textarea {
 private:
     std::string text;
     static int ResizeCallback(ImGuiInputTextCallbackData* data);
+    static int TextareaCallback(ImGuiInputTextCallbackData *data);
 
-    bool boldText;
-    bool italicText;
-    bool underlineText;
+    int cursorPos;
 public:
     Textarea();
     void Render();
     [[nodiscard]] std::string GetText() const;
     void SetText(const std::string& newText);
+    void InsertTextCursorPosition(const std::string& characters);
 };
 
 

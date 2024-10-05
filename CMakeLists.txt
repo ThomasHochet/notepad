@@ -35,7 +35,7 @@ set(PROJECTS_SOURCES
         Notepad/MarkdownPopup/MarkdownPopup.h Notepad/MarkdownPopup/Markdown/Markdown.cpp Notepad/MarkdownPopup/Markdown/Markdown.h)
 
 # Add include directories for SDL2 and ImGui
-include_directories(${SDL2_INCLUDE_DIR} imgui libs/nativefiledialog/src/include)
+include_directories(${SDL2_INCLUDE_DIR} imgui libs/nativefiledialog/src/include libs/stb)
 
 # Link SDL2 library directories
 link_directories(${SDL2_LIB_DIR})

@@ -27,7 +27,8 @@
 
 - [X] ~~Better UI~~
 - [X] ~~Choice between Popup or Frame for markdown render window~~ (Sticked with window through ImGui Docking)
-- [ ] Add Keybind and help to help formatting text.
+- [ ] Add Keybind and help to help formatting text. (half there)
 - [ ] Fix issue of focus when moving viewport
-- [ ] Explorer(?)
+- [ ] Choose a font and bind it to the project (Roboto maybe)
+- [ ] ~~Explorer(?)~~
 - [ ] ...

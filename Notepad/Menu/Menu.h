@@ -10,6 +10,10 @@ private:
     std::string currentFilePath;
     std::string fileContent;
     bool* isMarkdownViewVisible;
+    bool* boldSelected;
+    bool* underlineSelected;
+    bool* strikethroughSelected;
+    // bool italicSelected - no italic in markdown render.
 public:
     Menu();
     void Render();
@@ -18,6 +22,9 @@ public:
     std::string GetFileContent();
     void SetIsMarkdownViewVisible(bool* isNewMarkdownViewVisible);
     bool* GetIsMarkdownViewVisible();
+    void SetBoldSelected(bool* bold);
+    void SetUnderlinedSelected(bool* underline);
+    void SetStrikethroughSelected(bool* strikethrough);
 };
 
 #endif //NOTEPAD_MENU_H

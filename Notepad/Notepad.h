@@ -12,8 +12,10 @@ private:
     MarkdownPopup markdownPopup;
 
     bool markdownViewVisible;
-    ImVec2 currentPos;
-    ImVec2 currentDisplaySize;
+    bool boldSelected;
+    bool underlineSelected;
+    bool strikethroughSelected;
+    // bool italicSelected - no italic in markdown render.
 public:
     Notepad();
     void Render();
@@ -21,6 +23,5 @@ public:
     void HandleOpen();
     void HandlePopup();
 };
-
 
 #endif //NOTEPAD_NOTEPAD_H

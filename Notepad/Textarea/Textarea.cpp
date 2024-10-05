@@ -1,6 +1,6 @@
 #include "Textarea.h"
 
-Textarea::Textarea()  : text("") {}
+Textarea::Textarea() : text("") {}
 
 void Textarea::Render()
 {
@@ -19,7 +19,7 @@ void Textarea::Render()
             availableSize,
             ImGuiInputTextFlags_CallbackResize | ImGuiInputTextFlags_AllowTabInput | ImGuiWindowFlags_NoBringToFrontOnFocus,
             ResizeCallback,
-            (void*)&text
+            (void*)this
             );
 
     text.resize(strlen(text.c_str()));
@@ -50,4 +50,16 @@ void Textarea::SetText(const std::string& newText)
     {
         text.reserve(newText.size() + 1);
     }
+}
+
+void Textarea::InsertTextCursorPosition(const std::string& characters)
+{
+    if (cursorPos < 0 || cursorPos > static_cast<int>(text.size())) {
+        cursorPos = static_cast<int>(text.size());
+    }
+    text.insert(cursorPos, characters);
+
+    cursorPos += static_cast<int>(characters.size());
+
+    ImGui::SetKeyboardFocusHere();
 }

@@ -50,6 +50,28 @@ void Menu::Render()
             }
             ImGui::EndMenu();
         }
+
+        ImGui::SameLine();
+        ImGui::Spacing();
+        ImGui::SameLine();
+
+        if (ImGui::Button("B"))
+            *boldSelected = !(*boldSelected);
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Bold (Ctrl+B)");
+
+        ImGui::SameLine();
+        if (ImGui::Button("U"))
+            *underlineSelected = !(*underlineSelected);
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Underline (Ctrl+U)");
+
+        ImGui::SameLine();
+        if (ImGui::Button("S"))
+            *strikethroughSelected = !(*strikethroughSelected);
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Strikethrough (Ctrl+T)");
+
         ImGui::EndMenuBar();
     }
 }
@@ -126,4 +148,19 @@ void Menu::SetIsMarkdownViewVisible(bool* isNewMarkdownViewVisible)
 bool* Menu::GetIsMarkdownViewVisible()
 {
     return isMarkdownViewVisible;
+}
+
+void Menu::SetBoldSelected(bool* bold)
+{
+   boldSelected = bold;
+}
+
+void Menu::SetUnderlinedSelected(bool* underline)
+{
+    underlineSelected = underline;
+}
+
+void Menu::SetStrikethroughSelected(bool* strikethrough)
+{
+    strikethroughSelected = strikethrough;
 }

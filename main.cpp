@@ -11,16 +11,26 @@
 #include <SDL_opengl.h>
 #endif
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include "Notepad/Notepad.h"
 
+// Externals
+// Markdown
 ImFont* g_font_regular = nullptr;
 ImFont* g_font_bold = nullptr;
 ImFont* g_font_bold_large = nullptr;
-
 ImTextureID g_texture1 = nullptr;
+
+// Images
+SDL_Texture* bold_texture = nullptr;
+SDL_Texture* underline_texture = nullptr;
+SDL_Texture* strikethrough_texture = nullptr;
 
 void SetCustomTheme();
 void LoadCustomFont();
+bool LoadTextureFromFile(const char *filename, SDL_Texture **texture_ptr, int &width, int &height, SDL_Renderer *renderer);
 
 int main(int, char**) {
     // Setup SDL
@@ -71,6 +81,16 @@ int main(int, char**) {
         return -1;
     }
 
+    // Create SDL Renderer for images
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer)
+    {
+        std::cerr << "Failed to create renderer: " << SDL_GetError << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return -1;
+    }
+
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, gl_context);
     SDL_GL_SetSwapInterval(1); // Enable vsync
@@ -94,13 +114,26 @@ int main(int, char**) {
 
     // Load Fonts
     io.Fonts->AddFontDefault();
-    // For testing purpose, you can use an absolute path
-    // In use, the TTF need to be alongside the exe
-//     ImFont* consolas = io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/arial.ttf", 16.0f);
-//     IM_ASSERT(consolas != nullptr);
 
     // Our state
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    int image_width, image_height;
+    if (!LoadTextureFromFile("C:\\Users\\hoido\\CLionProjects\\notepad\\Notepad\\TextHelper\\Icons\\bold-text-icon.png", &bold_texture, image_width, image_height, renderer))
+    {
+        std::cerr << "Failed to load texture! (bold)" << std::endl;
+        return -1;
+    }
+    if (!LoadTextureFromFile("C:\\Users\\hoido\\CLionProjects\\notepad\\Notepad\\TextHelper\\Icons\\underline-outline-icon.png", &underline_texture, image_width, image_height, renderer))
+    {
+        std::cerr << "Failed to load texture! (bold)" << std::endl;
+        return -1;
+    }
+    if (!LoadTextureFromFile("C:\\Users\\hoido\\CLionProjects\\notepad\\Notepad\\TextHelper\\Icons\\strikethrough-outline-icon.png", &strikethrough_texture, image_width, image_height, renderer))
+    {
+        std::cerr << "Failed to load texture! (bold)" << std::endl;
+        return -1;
+    }
 
     SetCustomTheme();
     LoadCustomFont();
@@ -277,8 +310,10 @@ void LoadCustomFont()
 {
     ImGuiIO& io = ImGui::GetIO();
 
-    const char* fontPath = "C:\\Windows\\Fonts\\consola.ttf";
-    const char* fontPathBold = "C:\\Windows\\Fonts\\consolab.ttf";
+//    const char* fontPath = "C:\\Windows\\Fonts\\consola.ttf";
+//    const char* fontPathBold = "C:\\Windows\\Fonts\\consolab.ttf";
+    const char* fontPath = "C:\\Users\\hoido\\CLionProjects\\notepad\\Roboto\\Roboto-Regular.ttf";
+    const char* fontPathBold = "C:\\Users\\hoido\\CLionProjects\\notepad\\Roboto\\Roboto-Bold.ttf";
     io.FontDefault = io.Fonts->AddFontFromFileTTF(fontPath, 16.0f);
 
     g_font_regular = io.FontDefault;
@@ -294,4 +329,44 @@ void LoadCustomFont()
         std::cerr << "Failed to load large bold font!" << std::endl;
 
     io.Fonts->Build();
+}
+
+bool LoadTextureFromFile(
+        const char *filename,
+        SDL_Texture **texture_ptr,
+        int &width,
+        int &height,
+        SDL_Renderer *renderer)
+{
+    int channels;
+    unsigned char* data = stbi_load(filename, &width, &height, &channels, 0);
+
+    if (data == nullptr)
+    {
+        fprintf(stderr, "Failed to load image: %s\n", stbi_failure_reason());
+        return false;
+    }
+
+    SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
+            (void*)data, width, height, channels * 8, channels * width,
+            0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+
+    if (surface == nullptr)
+    {
+        fprintf(stderr, "Failed to create SDL surface: %s\n", SDL_GetError());
+        return false;
+    }
+
+    *texture_ptr = SDL_CreateTextureFromSurface(renderer, surface);
+
+    if ((*texture_ptr) == nullptr)
+    {
+        fprintf(stderr, "Failed to create SDL texture: %s\n", SDL_GetError());
+        return false;
+    }
+
+    SDL_FreeSurface(surface);
+    stbi_image_free(data);
+
+    return true;
 }
